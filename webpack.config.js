@@ -4,10 +4,8 @@ const CopyPlugin = require("copy-webpack-plugin");
 const CompressionPlugin = require("compression-webpack-plugin");
 
 module.exports = (env) => {
-  let apiUrl = "http://localhost:9898";
-  if (env.prod) {
-    apiUrl = "";
-  }
+  let apiUrl =
+    "https://dxmwof9qec.execute-api.ap-northeast-1.amazonaws.com/dev";
 
   return {
     resolve: {
@@ -45,14 +43,6 @@ module.exports = (env) => {
       }),
       new CompressionPlugin(),
     ],
-    devServer: {
-      historyApiFallback: true,
-      proxy: {
-        "/api": {
-          target: "http://localhost:9898",
-        },
-      },
-    },
     optimization: {
       runtimeChunk: "single",
       splitChunks: {
