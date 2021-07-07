@@ -41,7 +41,10 @@ module.exports = (env) => {
       new webpack.DefinePlugin({
         API: JSON.stringify(apiUrl),
       }),
-      new CompressionPlugin(),
+      new CompressionPlugin({
+        filename: "[path][base]",
+        deleteOriginalAssets: true,
+      }),
     ],
     optimization: {
       runtimeChunk: "single",
