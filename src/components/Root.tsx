@@ -153,7 +153,9 @@ export function Root() {
       ? [row.tail1, row.tail2, row.tail3].includes(state.tail)
       : true;
 
-    return eye && ear && back && mouth && horn && tail;
+    return (
+      eye && ear && back && mouth && horn && tail && !Number(row.breedCount)
+    );
   };
 
   const rowsFiltered = rows.filter(myFilter);
