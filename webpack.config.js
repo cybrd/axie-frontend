@@ -31,6 +31,7 @@ module.exports = (env) => {
         template: "./src/index.html",
         filename: "index.html",
         base: false,
+        favicon: "./favicon.ico",
       }),
       new webpack.ProvidePlugin({
         React: "react",

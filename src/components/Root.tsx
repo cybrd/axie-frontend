@@ -49,7 +49,10 @@ export function Root() {
       const rowsTmp = [];
       Object.values(tmp).forEach((value) => rowsTmp.push(value));
       setRows(rowsTmp);
-      setLastEvaluatedKey(data?.LastEvaluatedKey.id);
+
+      if (data?.LastEvaluatedKey) {
+        setLastEvaluatedKey(data.LastEvaluatedKey.id);
+      }
 
       setEyeList(eyeListTmp);
       setEarList(earListTmp);
@@ -59,6 +62,8 @@ export function Root() {
       setTailList(tailListTmp);
     });
   }, [lastEvaluatedKey]);
+
+  console.log(rows.length);
 
   const columns = [
     {
@@ -148,7 +153,7 @@ export function Root() {
       ? [row.tail1, row.tail2, row.tail3].includes(state.tail)
       : true;
 
-    return eye && ear && back && mouth && horn && tail && !row.breedCount;
+    return eye && ear && back && mouth && horn && tail;
   };
 
   const rowsFiltered = rows.filter(myFilter);
