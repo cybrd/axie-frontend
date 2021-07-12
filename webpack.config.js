@@ -7,6 +7,33 @@ module.exports = (env) => {
   let apiUrl =
     "https://dxmwof9qec.execute-api.ap-northeast-1.amazonaws.com/dev";
 
+  const plugins = [
+    new HtmlWebpackPlugin({
+      template: "./src/index.html",
+      filename: "index.html",
+      base: false,
+      favicon: "./favicon.ico",
+    }),
+    new webpack.ProvidePlugin({
+      React: "react",
+    }),
+    new CopyPlugin({
+      patterns: [{ from: "src/assets", to: "assets" }],
+    }),
+    new webpack.DefinePlugin({
+      API: JSON.stringify(apiUrl),
+    }),
+  ];
+
+  if (env.prod) {
+    plugins.push(
+      new CompressionPlugin({
+        filename: "[path][base]",
+        deleteOriginalAssets: true,
+      })
+    );
+  }
+
   return {
     resolve: {
       extensions: [".js", ".jsx", ".ts", ".tsx"],
@@ -26,27 +53,7 @@ module.exports = (env) => {
       filename: "[name].bundle.js",
       path: __dirname + "/public",
     },
-    plugins: [
-      new HtmlWebpackPlugin({
-        template: "./src/index.html",
-        filename: "index.html",
-        base: false,
-        favicon: "./favicon.ico",
-      }),
-      new webpack.ProvidePlugin({
-        React: "react",
-      }),
-      new CopyPlugin({
-        patterns: [{ from: "src/assets", to: "assets" }],
-      }),
-      new webpack.DefinePlugin({
-        API: JSON.stringify(apiUrl),
-      }),
-      new CompressionPlugin({
-        filename: "[path][base]",
-        deleteOriginalAssets: true,
-      }),
-    ],
+    plugins,
     optimization: {
       runtimeChunk: "single",
       splitChunks: {

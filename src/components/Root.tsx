@@ -4,6 +4,8 @@ import { DataGrid, GridCellParams } from "@material-ui/data-grid";
 
 import { FormControl, InputLabel, Select, MenuItem } from "@material-ui/core";
 
+import { parse, stringify } from "query-string";
+
 export function Root() {
   const [rows, setRows] = useState([]);
   const [lastEvaluatedKey, setLastEvaluatedKey] = useState("");
@@ -13,6 +15,8 @@ export function Root() {
   const [mouthList, setMouthList] = useState(new Set<string>());
   const [hornList, setHornList] = useState(new Set<string>());
   const [tailList, setTailList] = useState(new Set<string>());
+
+  const parsedHash = parse(location.hash);
 
   useEffect(() => {
     console.log("scan", lastEvaluatedKey);
@@ -60,6 +64,13 @@ export function Root() {
       setMouthList(mouthListTmp);
       setHornList(hornListTmp);
       setTailList(tailListTmp);
+
+      console.log("eye", eyeListTmp);
+      console.log("ear", earListTmp);
+      console.log("back", backListTmp);
+      console.log("mouth", mouthListTmp);
+      console.log("horn", hornListTmp);
+      console.log("tail", tailListTmp);
     });
   }, [lastEvaluatedKey]);
 
@@ -119,18 +130,26 @@ export function Root() {
   ];
 
   const [state, setState] = useState({
-    eye: "",
-    ear: "",
-    back: "",
-    mouth: "",
-    horn: "",
-    tail: "",
+    eye: parsedHash.eye ? String(parsedHash.eye) : "",
+    ear: parsedHash.ear ? String(parsedHash.ear) : "",
+    back: parsedHash.back ? String(parsedHash.back) : "",
+    mouth: parsedHash.mouth ? String(parsedHash.mouth) : "",
+    horn: parsedHash.horn ? String(parsedHash.horn) : "",
+    tail: parsedHash.tail ? String(parsedHash.tail) : "",
   });
   const handleChange = (event) => {
     setState({
       ...state,
       [event.target.name]: event.target.value,
     });
+
+    const newHash = parse(location.hash);
+    if (event.target.value) {
+      newHash[event.target.name] = event.target.value;
+    } else {
+      newHash[event.target.name] = undefined;
+    }
+    location.hash = stringify(newHash);
   };
 
   const myFilter = (row: any) => {
@@ -219,72 +238,74 @@ export function Root() {
 
   return (
     <div>
-      <FormControl>
-        <InputLabel>Eye</InputLabel>
-        <Select name="eye" value={state.eye} onChange={handleChange}>
-          <MenuItem value={""}>&nbsp;</MenuItem>
-          {[...eyeList].sort().map((x) => (
-            <MenuItem value={x} key={x}>
-              {x}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-      <FormControl>
-        <InputLabel>Ear</InputLabel>
-        <Select name="ear" value={state.ear} onChange={handleChange}>
-          <MenuItem value={""}>&nbsp;</MenuItem>
-          {[...earList].sort().map((x) => (
-            <MenuItem value={x} key={x}>
-              {x}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-      <FormControl>
-        <InputLabel>Back</InputLabel>
-        <Select name="back" value={state.back} onChange={handleChange}>
-          <MenuItem value={""}>&nbsp;</MenuItem>
-          {[...backList].sort().map((x) => (
-            <MenuItem value={x} key={x}>
-              {x}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-      <FormControl>
-        <InputLabel>Mouth</InputLabel>
-        <Select name="mouth" value={state.mouth} onChange={handleChange}>
-          <MenuItem value={""}>&nbsp;</MenuItem>
-          {[...mouthList].sort().map((x) => (
-            <MenuItem value={x} key={x}>
-              {x}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-      <FormControl>
-        <InputLabel>Horn</InputLabel>
-        <Select name="horn" value={state.horn} onChange={handleChange}>
-          <MenuItem value={""}>&nbsp;</MenuItem>
-          {[...hornList].sort().map((x) => (
-            <MenuItem value={x} key={x}>
-              {x}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-      <FormControl>
-        <InputLabel>Tail</InputLabel>
-        <Select name="tail" value={state.tail} onChange={handleChange}>
-          <MenuItem value={""}>&nbsp;</MenuItem>
-          {[...tailList].sort().map((x) => (
-            <MenuItem value={x} key={x}>
-              {x}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
+      <div style={{ display: "flex" }}>
+        <FormControl fullWidth={true}>
+          <InputLabel>Eye</InputLabel>
+          <Select name="eye" value={state.eye} onChange={handleChange}>
+            <MenuItem value={""}>&nbsp;</MenuItem>
+            {[...eyeList].sort().map((x) => (
+              <MenuItem value={x} key={x}>
+                {x}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+        <FormControl fullWidth={true}>
+          <InputLabel>Ear</InputLabel>
+          <Select name="ear" value={state.ear} onChange={handleChange}>
+            <MenuItem value={""}>&nbsp;</MenuItem>
+            {[...earList].sort().map((x) => (
+              <MenuItem value={x} key={x}>
+                {x}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+        <FormControl fullWidth={true}>
+          <InputLabel>Back</InputLabel>
+          <Select name="back" value={state.back} onChange={handleChange}>
+            <MenuItem value={""}>&nbsp;</MenuItem>
+            {[...backList].sort().map((x) => (
+              <MenuItem value={x} key={x}>
+                {x}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+        <FormControl fullWidth={true}>
+          <InputLabel>Mouth</InputLabel>
+          <Select name="mouth" value={state.mouth} onChange={handleChange}>
+            <MenuItem value={""}>&nbsp;</MenuItem>
+            {[...mouthList].sort().map((x) => (
+              <MenuItem value={x} key={x}>
+                {x}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+        <FormControl fullWidth={true}>
+          <InputLabel>Horn</InputLabel>
+          <Select name="horn" value={state.horn} onChange={handleChange}>
+            <MenuItem value={""}>&nbsp;</MenuItem>
+            {[...hornList].sort().map((x) => (
+              <MenuItem value={x} key={x}>
+                {x}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+        <FormControl fullWidth={true}>
+          <InputLabel>Tail</InputLabel>
+          <Select name="tail" value={state.tail} onChange={handleChange}>
+            <MenuItem value={""}>&nbsp;</MenuItem>
+            {[...tailList].sort().map((x) => (
+              <MenuItem value={x} key={x}>
+                {x}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </div>
       <div style={{ height: 650, width: "100%" }}>
         <DataGrid
           rows={rowsFormatted}
