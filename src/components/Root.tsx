@@ -15,6 +15,12 @@ export function Root() {
   const [mouthList, setMouthList] = useState(new Set<string>());
   const [hornList, setHornList] = useState(new Set<string>());
   const [tailList, setTailList] = useState(new Set<string>());
+  const [eyeListClass, setEyeListClass] = useState(new Set<string>());
+  const [earListClass, setEarListClass] = useState(new Set<string>());
+  const [backListClass, setBackListClass] = useState(new Set<string>());
+  const [mouthListClass, setMouthListClass] = useState(new Set<string>());
+  const [hornListClass, setHornListClass] = useState(new Set<string>());
+  const [tailListClass, setTailListClass] = useState(new Set<string>());
 
   const parsedHash = parse(location.hash);
 
@@ -30,6 +36,13 @@ export function Root() {
       const hornListTmp = new Set<string>();
       const tailListTmp = new Set<string>();
 
+      const eyeListClassTmp = new Set<string>();
+      const earListClassTmp = new Set<string>();
+      const backListClassTmp = new Set<string>();
+      const mouthListClassTmp = new Set<string>();
+      const hornListClassTmp = new Set<string>();
+      const tailListClassTmp = new Set<string>();
+
       rows.forEach((item) => {
         tmp[item.id] = item;
         eyeListTmp.add(item.eye1).add(item.eye2).add(item.eye3);
@@ -38,6 +51,31 @@ export function Root() {
         mouthListTmp.add(item.mouth1).add(item.mouth2).add(item.mouth3);
         hornListTmp.add(item.horn1).add(item.horn2).add(item.horn3);
         tailListTmp.add(item.tail1).add(item.tail2).add(item.tail3);
+
+        eyeListClassTmp
+          .add(item.eye1class)
+          .add(item.eye2class)
+          .add(item.eye3class);
+        earListClassTmp
+          .add(item.ear1class)
+          .add(item.ear2class)
+          .add(item.ear3class);
+        backListClassTmp
+          .add(item.back1class)
+          .add(item.back2class)
+          .add(item.back3class);
+        mouthListClassTmp
+          .add(item.mouth1class)
+          .add(item.mouth2class)
+          .add(item.mouth3class);
+        hornListClassTmp
+          .add(item.horn1class)
+          .add(item.horn2class)
+          .add(item.horn3class);
+        tailListClassTmp
+          .add(item.tail1class)
+          .add(item.tail2class)
+          .add(item.tail3class);
       });
 
       data?.Items.forEach((item: any) => {
@@ -48,6 +86,31 @@ export function Root() {
         mouthListTmp.add(item.mouth1).add(item.mouth2).add(item.mouth3);
         hornListTmp.add(item.horn1).add(item.horn2).add(item.horn3);
         tailListTmp.add(item.tail1).add(item.tail2).add(item.tail3);
+
+        eyeListClassTmp
+          .add(item.eye1class)
+          .add(item.eye2class)
+          .add(item.eye3class);
+        earListClassTmp
+          .add(item.ear1class)
+          .add(item.ear2class)
+          .add(item.ear3class);
+        backListClassTmp
+          .add(item.back1class)
+          .add(item.back2class)
+          .add(item.back3class);
+        mouthListClassTmp
+          .add(item.mouth1class)
+          .add(item.mouth2class)
+          .add(item.mouth3class);
+        hornListClassTmp
+          .add(item.horn1class)
+          .add(item.horn2class)
+          .add(item.horn3class);
+        tailListClassTmp
+          .add(item.tail1class)
+          .add(item.tail2class)
+          .add(item.tail3class);
       });
 
       const rowsTmp = [];
@@ -65,16 +128,14 @@ export function Root() {
       setHornList(hornListTmp);
       setTailList(tailListTmp);
 
-      console.log("eye", eyeListTmp);
-      console.log("ear", earListTmp);
-      console.log("back", backListTmp);
-      console.log("mouth", mouthListTmp);
-      console.log("horn", hornListTmp);
-      console.log("tail", tailListTmp);
+      setEyeListClass(eyeListClassTmp);
+      setEarListClass(earListClassTmp);
+      setBackListClass(backListClassTmp);
+      setMouthListClass(mouthListClassTmp);
+      setHornListClass(hornListClassTmp);
+      setTailListClass(tailListClassTmp);
     });
   }, [lastEvaluatedKey]);
-
-  console.log(rows.length);
 
   const columns = [
     {
@@ -136,6 +197,12 @@ export function Root() {
     mouth: parsedHash.mouth ? String(parsedHash.mouth) : "",
     horn: parsedHash.horn ? String(parsedHash.horn) : "",
     tail: parsedHash.tail ? String(parsedHash.tail) : "",
+    eyeClass: parsedHash.eyeClass ? String(parsedHash.eyeClass) : "",
+    earClass: parsedHash.earClass ? String(parsedHash.earClass) : "",
+    backClass: parsedHash.backClass ? String(parsedHash.backClass) : "",
+    mouthClass: parsedHash.mouthClass ? String(parsedHash.mouthClass) : "",
+    hornClass: parsedHash.hornClass ? String(parsedHash.hornClass) : "",
+    tailClass: parsedHash.tailClass ? String(parsedHash.tailClass) : "",
   });
   const handleChange = (event) => {
     setState({
@@ -172,8 +239,46 @@ export function Root() {
       ? [row.tail1, row.tail2, row.tail3].includes(state.tail)
       : true;
 
+    const eyeClass = state.eyeClass
+      ? [row.eye1class, row.eye2class, row.eye3class].includes(state.eyeClass)
+      : true;
+    const earClass = state.earClass
+      ? [row.ear1class, row.ear2class, row.ear3class].includes(state.earClass)
+      : true;
+    const backClass = state.backClass
+      ? [row.back1class, row.back2class, row.back3class].includes(
+          state.backClass
+        )
+      : true;
+    const mouthClass = state.mouthClass
+      ? [row.mouth1class, row.mouth2class, row.mouth3class].includes(
+          state.mouthClass
+        )
+      : true;
+    const hornClass = state.hornClass
+      ? [row.horn1class, row.horn2class, row.horn3class].includes(
+          state.hornClass
+        )
+      : true;
+    const tailClass = state.tailClass
+      ? [row.tail1class, row.tail2class, row.tail3class].includes(
+          state.tailClass
+        )
+      : true;
+
     return (
-      eye && ear && back && mouth && horn && tail && !Number(row.breedCount)
+      eye &&
+      ear &&
+      back &&
+      mouth &&
+      horn &&
+      tail &&
+      eyeClass &&
+      earClass &&
+      backClass &&
+      mouthClass &&
+      hornClass &&
+      tailClass
     );
   };
 
@@ -219,25 +324,160 @@ export function Root() {
       ? scoreMap([row.tail1, row.tail2, row.tail3], state.tail)
       : 0;
 
+    const eyeClassScore = state.eyeClass
+      ? scoreMap([row.eye1class, row.eye2class, row.eye3class], state.eyeClass)
+      : 0;
+    const earClassScore = state.earClass
+      ? scoreMap([row.ear1class, row.ear2class, row.ear3class], state.earClass)
+      : 0;
+    const backClassScore = state.backClass
+      ? scoreMap(
+          [row.back1class, row.back2class, row.back3class],
+          state.backClass
+        )
+      : 0;
+    const mouthClassScore = state.mouthClass
+      ? scoreMap(
+          [row.mouth1class, row.mouth2class, row.mouth3class],
+          state.mouthClass
+        )
+      : 0;
+    const hornClassScore = state.hornClass
+      ? scoreMap(
+          [row.horn1class, row.horn2class, row.horn3class],
+          state.hornClass
+        )
+      : 0;
+    const tailClassScore = state.tailClass
+      ? scoreMap(
+          [row.tail1class, row.tail2class, row.tail3class],
+          state.tailClass
+        )
+      : 0;
+
     const totalScore =
-      eyeScore + earScore + backScore + mouthScore + hornScore + tailScore;
+      eyeScore +
+      earScore +
+      backScore +
+      mouthScore +
+      hornScore +
+      tailScore +
+      eyeClassScore +
+      earClassScore +
+      backClassScore +
+      mouthClassScore +
+      hornClassScore +
+      tailClassScore;
 
     return {
       ...row,
       id: Number(row.id),
       price: Number(row.price),
-      eyeScore,
-      earScore,
-      backScore,
-      mouthScore,
-      hornScore,
-      tailScore,
+      eyeScore: eyeScore + eyeClassScore,
+      earScore: earScore + earClassScore,
+      backScore: backScore + backClassScore,
+      mouthScore: mouthScore + mouthClassScore,
+      hornScore: hornScore + hornClassScore,
+      tailScore: tailScore + tailClassScore,
       totalScore,
     };
   });
 
   return (
     <div>
+      <div style={{ display: "flex" }}>
+        <FormControl fullWidth={true}>
+          <InputLabel>Eye Class</InputLabel>
+          <Select
+            name="eyeClass"
+            value={state.eyeClass}
+            onChange={handleChange}
+          >
+            <MenuItem value={""}>&nbsp;</MenuItem>
+            {[...eyeListClass].sort().map((x) => (
+              <MenuItem value={x} key={x}>
+                {x}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+        <FormControl fullWidth={true}>
+          <InputLabel>Ear Class</InputLabel>
+          <Select
+            name="earClass"
+            value={state.earClass}
+            onChange={handleChange}
+          >
+            <MenuItem value={""}>&nbsp;</MenuItem>
+            {[...earListClass].sort().map((x) => (
+              <MenuItem value={x} key={x}>
+                {x}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+        <FormControl fullWidth={true}>
+          <InputLabel>Back Class</InputLabel>
+          <Select
+            name="backClass"
+            value={state.backClass}
+            onChange={handleChange}
+          >
+            <MenuItem value={""}>&nbsp;</MenuItem>
+            {[...backListClass].sort().map((x) => (
+              <MenuItem value={x} key={x}>
+                {x}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+        <FormControl fullWidth={true}>
+          <InputLabel>Mouth Class</InputLabel>
+          <Select
+            name="mouthClass"
+            value={state.mouthClass}
+            onChange={handleChange}
+          >
+            <MenuItem value={""}>&nbsp;</MenuItem>
+            {[...mouthListClass].sort().map((x) => (
+              <MenuItem value={x} key={x}>
+                {x}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+        <FormControl fullWidth={true}>
+          <InputLabel>Horn Class</InputLabel>
+          <Select
+            name="hornClass"
+            value={state.hornClass}
+            onChange={handleChange}
+          >
+            <MenuItem value={""}>&nbsp;</MenuItem>
+            {[...hornListClass].sort().map((x) => (
+              <MenuItem value={x} key={x}>
+                {x}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+        <FormControl fullWidth={true}>
+          <InputLabel>Tail Class</InputLabel>
+          <Select
+            name="tailClass"
+            value={state.tailClass}
+            onChange={handleChange}
+          >
+            <MenuItem value={""}>&nbsp;</MenuItem>
+            {[...tailListClass].sort().map((x) => (
+              <MenuItem value={x} key={x}>
+                {x}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </div>
+
       <div style={{ display: "flex" }}>
         <FormControl fullWidth={true}>
           <InputLabel>Eye</InputLabel>
@@ -306,6 +546,7 @@ export function Root() {
           </Select>
         </FormControl>
       </div>
+
       <div style={{ height: 650, width: "100%" }}>
         <DataGrid
           rows={rowsFormatted}
